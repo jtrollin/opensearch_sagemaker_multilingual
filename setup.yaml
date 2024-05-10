@@ -32,8 +32,6 @@ Resources:
         BlockPublicPolicy: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
-      VersioningConfiguration:
-        Status: Enabled
       ObjectLockEnabled: false
 
   # Bucket policy to only allow TLS connections.
@@ -107,8 +105,13 @@ Resources:
                   - 'iam:PassRole'
                 Resource:
                   !Sub 'arn:aws:iam::${AWS::AccountId}:role/*'
+              - Effect: Allow
+                Action:
+                  - 'cloudformation:DescribeStacks'
+                Resource:
+                  !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/OpenSearchSageMakerDemo/*'
 
-SageMakerOpenSearchRole:
+  SageMakerOpenSearchRole:
     Type: 'AWS::IAM::Role'
     Properties:
       RoleName: !Sub '${AWS::Region}-${AWS::AccountId}-SageMaker-OpenSearch-demo-role'
@@ -143,6 +146,7 @@ SageMakerOpenSearchRole:
       DefaultCodeRepository: 'https://github.com/jtrollin/opensearch_sagemaker_multilingual'
       InstanceType: 'ml.m5.xlarge'
       RoleArn: !GetAtt SageMakerExecutionRole.Arn
+      VolumeSizeInGB: 100
 
 Outputs:
   S3BucketName:
@@ -153,6 +157,6 @@ Outputs:
     Description: SageMaker Execution Role Arn
     Value: !GetAtt SageMakerExecutionRole.Arn
 
-  SageMakerOpenSearchRoleName:
+  SageMakerOpenSearchRoleArn:
     Description: SageMaker OpenSearch Role Arn
-    Value: !GetAtt SageMakerExecutionRole.Arn
+    Value: !GetAtt SageMakerOpenSearchRole.Arn

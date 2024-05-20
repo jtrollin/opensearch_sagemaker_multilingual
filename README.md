@@ -1,5 +1,10 @@
 # opensearch_sagemaker_multilingual
 Amazon OpenSearch using Amazon SageMaker for multilingual searching
+This setups up a Jupyter notebook that will be used to create the demo.
+
+The demo consits of an Amazon OpenSearch cluster and two Amazon SageMaker endpoints.  The endpoints each host a differnt embedding model to show the differnces between the two models.
+
+The OpenSearch cluster is seeded with 30 sentences talking about the season of spring, the 30 sentences talking about a mechanical spring and 30 sentences talking about the verb spring in three different languages (English, French and German) for a total of 90 sentences per lanuage.   This is to show how the mondels handle understanding the meaning of the words you are search for.
 
 ### Step 1 - Run cloudformation template
 

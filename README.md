@@ -33,7 +33,7 @@ Now, we will switch over to the console to create our custom policy.
 
 In the AWS console, go to the IAM (Identity Access Management) service. On the left hand menu click on **Policies**
 
-![iam_policies](images/iam_1.png)
+![iam_policies](images/iam_1.PNG)
 
 Click on create policy, and slide the toggle over to **JSON**.
 Paste the following JSON script:
@@ -88,7 +88,7 @@ Paste the following JSON script:
 	]
 }
 ```
-![iam_policies](images/iam_5.png)
+![iam_policies](images/iam_5.PNG)
 
 replace the placeholders ```${AWS::Region}``` and ```${AWS::AccountId}``` with your actual AWS region and account ID.
 
@@ -98,7 +98,7 @@ Then, click **Create policy**
 
 Then, attach the ```${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-policy``` policy to the ```${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role``` you created in the previous step. 
 
-![iam_policies](images/iam_6.png)
+![iam_policies](images/iam_6.PNG)
 
 ### Step 2 - Create an IAM role for Amazon Opensearch and create a custom policy
 Within Cloudshell, run the following command:
@@ -112,7 +112,7 @@ Now, we will switch over to the console to create our custom policy.
 
 In the AWS console, go to the IAM (Identity Access Management) service. On the left hand menu click on **Policies**
 
-![iam_policies](images/iam_1.png)
+![iam_policies](images/iam_1.PNG)
 
 Click on create policy, and slide the toggle over to **JSON**.
 Paste the following JSON script:

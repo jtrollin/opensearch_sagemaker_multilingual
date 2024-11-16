@@ -1,0 +1,22 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Action": [
+				"sagemaker:InvokeEndpointAsync",
+				"sagemaker:InvokeEndpoint"
+			],
+			"Resource": [
+				"arn:aws:sagemaker:__Region__:__AccountId__:endpoint/*"
+			],
+			"Effect": "Allow"
+		},
+        {
+			"Action": [
+                "comprehend:DetectDominantLanguage"
+			],
+			"Resource": "*",
+			"Effect": "Allow"
+		}
+	]
+}

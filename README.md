@@ -10,6 +10,9 @@ please replace the placeholders ```${AWS::Region}``` and ```${AWS::AccountId}```
 
 ### Step 1 - Create an IAM role for Sagemaker and attatch policies
 ```
+sed -i 's/${__AccountId__}/${AWS::AccountId}/g' sagemaker_policy.json
+sed -i 's/${__Region__}/${AWS::Region}/g' sagemaker_policy.json
+
 aws iam create-role \
     --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role \
     --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"sagemaker.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
@@ -28,15 +31,18 @@ aws iam attach-role-policy \
 aws iam attach-role-policy \
     --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role \
     --policy-arn arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
+
+policy_arn=$(aws iam create-policy \
+    --policy-name sagemaker-policy \
+    --policy-document file://sagemaker_policy.json \
+    --query 'Policy.Arn' \
+    --output text)
+    
+aws iam attach-role-policy \
+    --policy-arn $policy_arn \
+    --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role
 ```
-Now, we will switch over to the console to create our custom policy. 
-
-In the AWS console, go to the IAM (Identity Access Management) service. On the left hand menu click on **Policies**
-
-![iam_policies](images/iam_1.PNG)
-
-Click on create policy, and slide the toggle over to **JSON**.
-Paste the following JSON script:
+You can see the policy we added below or by opening the sagemaker_policy.json
 ```
 {
 	"Version": "2012-10-17",
@@ -88,34 +94,30 @@ Paste the following JSON script:
 	]
 }
 ```
-![iam_policies](images/iam_5.PNG)
-
-replace the placeholders ```${AWS::Region}``` and ```${AWS::AccountId}``` with your actual AWS region and account ID.
-
-Click next, and on the **Review and Create** page, name your policy ```${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-policy```
-
-Then, click **Create policy**
-
-Then, attach the ```${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-policy``` policy to the ```${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role``` you created in the previous step. 
-
-![iam_policies](images/iam_6.PNG)
 
 ### Step 2 - Create an IAM role for Amazon Opensearch and create a custom policy
 Within Cloudshell, run the following command:
 
 ```
+sed -i 's/${__AccountId__}/${AWS::AccountId}/g' opensearch_policy.json
+sed -i 's/${__Region__}/${AWS::Region}/g' opensearch_policy.json
+
 aws iam create-role \
     --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-OpenSearch-demo-role \
     --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"opensearchservice.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+
+policy_arn=$(aws iam create-policy \
+    --policy-name sagemaker-policy \
+    --policy-document file://sagemaker_policy.json \
+    --query 'Policy.Arn' \
+    --output text)
+    
+aws iam attach-role-policy \
+    --policy-arn $policy_arn \
+    --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-OpenSearch-demo-role
 ```
-Now, we will switch over to the console to create our custom policy. 
 
-In the AWS console, go to the IAM (Identity Access Management) service. On the left hand menu click on **Policies**
-
-![iam_policies](images/iam_1.PNG)
-
-Click on create policy, and slide the toggle over to **JSON**.
-Paste the following JSON script:
+You can see the custom policy below.  It allows the Amazon OpenSearch service to Invoke Amazon SageMaker endpoints as well as the Amazon Comprehend DetectDominantLanguage API
 
 ```
 {
@@ -130,19 +132,17 @@ Paste the following JSON script:
 				"arn:aws:sagemaker:${AWS::Region}:${AWS::AccountId}:endpoint/*"
 			],
 			"Effect": "Allow"
+		},
+        {
+			"Action": [
+                "comprehend:DetectDominantLanguage"
+			],
+			"Resource": "*",
+			"Effect": "Allow"
 		}
 	]
 }
 ```
-replace the placeholders ```${AWS::Region}``` and ```${AWS::AccountId}``` with your actual AWS region and account ID.
-
-Click next, and on the **Review and Create** page, name your policy ```${AWS::Region}-${AWS::AccountId}-SageMaker-OpenSearch-demo-policy```. 
-
-Then, click **Create policy**
-
-Then, attach the ```${AWS::Region}-${AWS::AccountId}-SageMaker-OpenSearch-demo-policy``` to the ```${AWS::Region}-${AWS::AccountId}-SageMaker-OpenSearch-demo-role``` you created in the previous step. 
-
-![iam_policies](images/iam_7.png)
 
 Now, we can open up Cloudshell again to run our final command.
 
@@ -156,7 +156,7 @@ aws sagemaker create-notebook-instance \
     --default-code-repository https://github.com/jtrollin/opensearch_sagemaker_multilingual
 ```
 
- Once the Sagemaker notebook instance has been successfully created, naviate to the **SageMaker** dashboard in the console.
+Once the Sagemaker notebook instance has been successfully created, naviate to the **SageMaker** dashboard in the console.
 
 On the left hand menu click on the **Notebook** dropdown menu.
 ![notebook dashboard](images/notebooks.png)

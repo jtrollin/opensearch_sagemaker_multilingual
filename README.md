@@ -20,16 +20,6 @@ aws iam create-role \
 ```
 aws iam attach-role-policy \
     --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role \
-    --policy-arn arn:aws:iam::aws:policy/AmazonSageMakerCanvasAIServicesAccess
-```
-```
-aws iam attach-role-policy \
-    --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role \
-    --policy-arn arn:aws:iam::aws:policy/AmazonSageMakerCanvasFullAccess
-```
-```
-aws iam attach-role-policy \
-    --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role \
     --policy-arn arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
 
 policy_arn=$(aws iam create-policy \

@@ -1,6 +1,8 @@
 # opensearch_sagemaker_multilingual
 Amazon OpenSearch using Amazon SageMaker for multilingual searching.
 
+** this is repo is intended for demo purposes ONLY. For production workloads, make sure you follow security best practices such as creating resources within a VPCs, ensuring that IAM policies/roles have granular access control, etc. Resources should be deleted after done playing with various queries.
+
  **Prerequesites:**
  1. Must have AWS account
 

@@ -132,7 +132,7 @@ aws sagemaker create-notebook-instance \
     --default-code-repository https://github.com/jtrollin/opensearch_sagemaker_multilingual
 ```
 
-Once the Sagemaker notebook instance has been successfully created, naviate to the **SageMaker** dashboard in the console.
+Once the Sagemaker notebook instance has been successfully created, navigate to the **SageMaker** dashboard in the console.
 
 On the left hand menu click on the **Notebook** dropdown menu.
 ![notebook dashboard](images/notebooks.png)

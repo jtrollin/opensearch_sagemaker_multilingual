@@ -1,6 +1,8 @@
 # opensearch_sagemaker_multilingual
 Amazon OpenSearch using Amazon SageMaker for multilingual searching.
 
+** this is repo is intended for demo purposes ONLY. For production workloads, make sure you follow security best practices such as creating resources within a VPCs, ensuring that IAM policies/roles have granular access control, etc. Resources should be deleted after done playing with various queries.
+
  **Prerequesites:**
  1. Must have AWS account
 
@@ -16,16 +18,6 @@ sed -i 's/${__Region__}/${AWS::Region}/g' sagemaker_policy.json
 aws iam create-role \
     --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role \
     --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"sagemaker.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
-```
-```
-aws iam attach-role-policy \
-    --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role \
-    --policy-arn arn:aws:iam::aws:policy/AmazonSageMakerCanvasAIServicesAccess
-```
-```
-aws iam attach-role-policy \
-    --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role \
-    --policy-arn arn:aws:iam::aws:policy/AmazonSageMakerCanvasFullAccess
 ```
 ```
 aws iam attach-role-policy \
@@ -75,20 +67,6 @@ You can see the policy we added below or by opening the sagemaker_policy.json
 				"es:DescribeDomainHealth"
 			],
 			"Resource": "arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/*",
-			"Effect": "Allow"
-		},
-		{
-			"Action": [
-				"iam:PassRole"
-			],
-			"Resource": "arn:aws:iam::${AWS::AccountId}:role/*",
-			"Effect": "Allow"
-		},
-		{
-			"Action": [
-				"cloudformation:DescribeStacks"
-			],
-			"Resource": "arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/OpenSearchSageMakerDemo/*",
 			"Effect": "Allow"
 		}
 	]
@@ -156,7 +134,7 @@ aws sagemaker create-notebook-instance \
     --default-code-repository https://github.com/jtrollin/opensearch_sagemaker_multilingual
 ```
 
-Once the Sagemaker notebook instance has been successfully created, naviate to the **SageMaker** dashboard in the console.
+Once the Sagemaker notebook instance has been successfully created, navigate to the **SageMaker** dashboard in the console.
 
 On the left hand menu click on the **Notebook** dropdown menu.
 ![notebook dashboard](images/notebooks.png)

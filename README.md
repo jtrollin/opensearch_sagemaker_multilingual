@@ -76,20 +76,6 @@ You can see the policy we added below or by opening the sagemaker_policy.json
 			],
 			"Resource": "arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/*",
 			"Effect": "Allow"
-		},
-		{
-			"Action": [
-				"iam:PassRole"
-			],
-			"Resource": "arn:aws:iam::${AWS::AccountId}:role/*",
-			"Effect": "Allow"
-		},
-		{
-			"Action": [
-				"cloudformation:DescribeStacks"
-			],
-			"Resource": "arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/OpenSearchSageMakerDemo/*",
-			"Effect": "Allow"
 		}
 	]
 }

@@ -10,7 +10,42 @@ These first couple steps set up an Amazon SageMaker notebook to use for the Open
 
 please replace the placeholders ```${AWS::Region}``` and ```${AWS::AccountId}``` with your actual AWS region and account ID.
 
-### Step 1 - Create an IAM role for Sagemaker and attatch policies
+### Step 1 - Create an S3 bucket to store models
+```
+S3_BUCKET_NAME="${AWS_REGION}-${AWS_ACCOUNT_ID}-opensearch-sagemaker-demo-models"
+aws s3api create-bucket --bucket $S3_BUCKET_NAME --region $AWS_REGION
+aws s3api put-public-access-block \
+    --bucket $S3_BUCKET_NAME \
+    --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
+```
+```
+aws s3api put-bucket-encryption \
+    --bucket $S3_BUCKET_NAME \
+    --server-side-encryption-configuration '{"Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "aws:kms"}}]}'
+```
+```
+aws s3api put-bucket-policy --bucket $S3_BUCKET_NAME --policy '{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::'"$S3_BUCKET_NAME"'",
+                "arn:aws:s3:::'"$S3_BUCKET_NAME"'/*"
+            ],
+            "Condition": {
+                "Bool": {"aws:SecureTransport": "false"}
+            }
+        }
+    ]
+}'
+
+echo "Bucket '$S3_BUCKET_NAME' created and configured successfully."
+```
+
+### Step 2 - Create an IAM role for Sagemaker and attatch policies
 ```
 sed -i 's/${__AccountId__}/${AWS::AccountId}/g' sagemaker_policy.json
 sed -i 's/${__Region__}/${AWS::Region}/g' sagemaker_policy.json
@@ -73,7 +108,7 @@ You can see the policy we added below or by opening the sagemaker_policy.json
 }
 ```
 
-### Step 2 - Create an IAM role for Amazon Opensearch and create a custom policy
+### Step 3 - Create an IAM role for Amazon Opensearch and create a custom policy
 Within Cloudshell, run the following command:
 
 ```
@@ -124,7 +159,7 @@ You can see the custom policy below.  It allows the Amazon OpenSearch service to
 
 Now, we can open up Cloudshell again to run our final command.
 
-### Step 3 - Create a Sagemaker notebook instance
+### Step 4 - Create a Sagemaker notebook instance
 ```
 aws sagemaker create-notebook-instance \
     --notebook-instance-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-notebook \

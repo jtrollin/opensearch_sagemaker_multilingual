@@ -8,7 +8,7 @@ Amazon OpenSearch using Amazon SageMaker for multilingual searching.
 
 These first couple steps set up an Amazon SageMaker notebook to use for the OpenSearch SageMaker multilingual Demo. You can run these commands on AWS Cloudshell after logging into your AWS account.
 
-please replace the placeholders ```${AWS::Region}``` and ```${AWS::AccountId}``` with your actual AWS region and account ID.
+Please replace the placeholders ```${AWS::Region}``` and ```${AWS::AccountId}``` with your actual AWS region and account ID.
 
 ### Step 1 - Create an S3 bucket to store models
 ```
@@ -45,7 +45,7 @@ aws s3api put-bucket-policy --bucket $S3_BUCKET_NAME --policy '{
 echo "Bucket '$S3_BUCKET_NAME' created and configured successfully."
 ```
 
-### Step 2 - Create an IAM role for Sagemaker and attatch policies
+### Step 2 - Create an IAM role for Sagemaker and attach policies
 ```
 sed -i 's/${__AccountId__}/${AWS::AccountId}/g' sagemaker_policy.json
 sed -i 's/${__Region__}/${AWS::Region}/g' sagemaker_policy.json

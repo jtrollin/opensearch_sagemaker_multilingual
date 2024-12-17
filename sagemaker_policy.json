@@ -28,8 +28,10 @@
 				"es:CreateElasticsearchDomain",
 				"es:DescribeDomainHealth"
 			],
-			"Resource": "arn:aws:es:__Region__:__AccountId__:domain/*",
-			"Effect": "Allow"
+			"Resource": [
+				"*",
+				"arn:aws:es:__Region__:__AccountId__:domain/*"
+			]
 		}
 	]
 }

@@ -203,7 +203,7 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS: !Sub '*'
+              AWS: '*'
             Action: 'es:*'
             Resource: !Sub 'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/ml-commons-demo-2-17/*'
             Condition:
@@ -231,3 +231,11 @@ Outputs:
   SageMakerOpenSearchRoleArn:
     Description: SageMaker OpenSearch Role Arn
     Value: !GetAtt SageMakerOpenSearchRole.Arn
+    
+  SageMakerJupyterNotebookURL:
+    Description: The URL to open the SageMaker Jupyter Notebook
+    Value: !Join
+      - ''
+      - - !Sub 'https://console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/'
+        - !GetAtt SageMakerNotebook.NotebookInstanceName
+        - '?view=lab'

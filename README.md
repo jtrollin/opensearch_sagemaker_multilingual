@@ -46,6 +46,13 @@ echo "Bucket '$S3_BUCKET_NAME' created and configured successfully."
 ```
 
 ### Step 2 - Create an IAM role for Sagemaker and attach policies
+
+Frist we must clone this repo so we have access to the code.
+``` 
+git clone https://github.com/jtrollin/opensearch_sagemaker_multilingual.git
+cd opensearch_sagemaker_multilingual/
+```
+Now we need to update the policies to have the right account id and region, please remember to update `${AWS::AccountId}` with your account id and `${AWS::Region}` with your region.
 ```
 sed -i 's/${__AccountId__}/${AWS::AccountId}/g' sagemaker_policy.json
 sed -i 's/${__Region__}/${AWS::Region}/g' sagemaker_policy.json

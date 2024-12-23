@@ -54,8 +54,8 @@ cd opensearch_sagemaker_multilingual/
 ```
 Now we need to update the policies to have the right account id and region, please remember to update `${AWS::AccountId}` with your account id and `${AWS::Region}` with your region.
 ```
-sed -i 's/${__AccountId__}/${AWS::AccountId}/g' sagemaker_policy.json
-sed -i 's/${__Region__}/${AWS::Region}/g' sagemaker_policy.json
+sed -i 's/__AccountId__/${AWS::AccountId}/g' sagemaker_policy.json
+sed -i 's/__Region__/${AWS::Region}/g' sagemaker_policy.json
 
 aws iam create-role \
     --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-Execution-demo-role \
@@ -93,8 +93,8 @@ You can see the policy we added below or by opening the sagemaker_policy.json
                 "s3:PutBucketPolicy"
 			],
 			"Resource": [
-				"arn:aws:s3:::${AWS::Region}-${AWS::AccountId}-opensearch-sagemaker-demo-models/*",
-				"arn:aws:s3:::${AWS::Region}-${AWS::AccountId}-opensearch-sagemaker-demo-models/"
+				"arn:aws:s3:::__Region__-__AccountId__-opensearch-sagemaker-demo-models/*",
+				"arn:aws:s3:::__Region__-__AccountId__-opensearch-sagemaker-demo-models/"
 			],
 			"Effect": "Allow"
 		},
@@ -108,8 +108,11 @@ You can see the policy we added below or by opening the sagemaker_policy.json
 				"es:CreateElasticsearchDomain",
 				"es:DescribeDomainHealth"
 			],
-			"Resource": "arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/*",
-			"Effect": "Allow"
+			"Resource": [
+				"*",
+				"arn:aws:es:__Region__:__AccountId__:domain/*"
+			],
+            "Effect": "Allow"
 		}
 	]
 }
@@ -119,15 +122,15 @@ You can see the policy we added below or by opening the sagemaker_policy.json
 Within Cloudshell, run the following command:
 
 ```
-sed -i 's/${__AccountId__}/${AWS::AccountId}/g' opensearch_policy.json
-sed -i 's/${__Region__}/${AWS::Region}/g' opensearch_policy.json
+sed -i 's/__AccountId__/${AWS::AccountId}/g' opensearch_policy.json
+sed -i 's/__Region__/${AWS::Region}/g' opensearch_policy.json
 
 aws iam create-role \
     --role-name ${AWS::Region}-${AWS::AccountId}-SageMaker-OpenSearch-demo-role \
     --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"opensearchservice.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
 
 policy_arn=$(aws iam create-policy \
-    --policy-name sagemaker-policy \
+    --policy-name opensearch-policy \
     --policy-document file://sagemaker_policy.json \
     --query 'Policy.Arn' \
     --output text)
@@ -149,7 +152,7 @@ You can see the custom policy below.  It allows the Amazon OpenSearch service to
 				"sagemaker:InvokeEndpoint"
 			],
 			"Resource": [
-				"arn:aws:sagemaker:${AWS::Region}:${AWS::AccountId}:endpoint/*"
+				"arn:aws:sagemaker:__Region__:__AccountId__:endpoint/*"
 			],
 			"Effect": "Allow"
 		},

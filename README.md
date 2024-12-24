@@ -131,7 +131,7 @@ aws iam create-role \
 
 policy_arn=$(aws iam create-policy \
     --policy-name opensearch-policy \
-    --policy-document file://sagemaker_policy.json \
+    --policy-document file://opensearch_policy.json \
     --query 'Policy.Arn' \
     --output text)
     
@@ -191,8 +191,5 @@ Here you should see a notebook that has been created for you. Once the status of
 
 On the right had side of the notebook, you will see a file directory.  Open the file named **OpensearchDemo.ipynb**.
 ![notebook instances](images/open_notebook.png)
-
-You will be asked to select a runtime for the notebook.  Select **conda_python3**.
-![notebook instances](images/choose_runtime.png)
 
 The rest of this tutorial will be run from the notebook you just opened.

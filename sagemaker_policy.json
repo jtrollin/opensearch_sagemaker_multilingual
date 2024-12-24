@@ -33,6 +33,11 @@
 				"arn:aws:es:__Region__:__AccountId__:domain/*"
 			],
             "Effect": "Allow"
+		},
+        {
+			"Effect": "Allow",
+			"Action": "iam:PassRole",
+			"Resource": "arn:aws:iam::__AccountId__:role/__Region__-__AccountId__-SageMaker-OpenSearch-demo-role"
 		}
 	]
 }

@@ -6,7 +6,7 @@ Amazon OpenSearch using Amazon SageMaker for multilingual searching.
  **Prerequesites:**
  1. Must have AWS account
 
-These first couple steps set up an Amazon SageMaker notebook to use for the OpenSearch SageMaker multilingual Demo. You can run these commands on AWS Cloudshell after logging into your AWS account.
+These first couple steps set up an Amazon SageMaker notebook to use for the OpenSearch SageMaker multilingual Demo. You should run these commands on AWS Cloudshell after logging into your AWS account.
 
 Please replace the placeholders ```${AWS::Region}``` and ```${AWS::AccountId}``` with your actual AWS region and account ID.
 

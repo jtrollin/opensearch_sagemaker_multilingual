@@ -86,6 +86,7 @@ You can see the policy we added below or by opening the sagemaker_policy.json
 				"s3:PutObject",
                 "s3:GetObject",
                 "s3:DeleteObject",
+                "s3:DeleteBucket",
                 "s3:ListBucket",
                 "s3:CreateBucket",
                 "s3:PutBucketPublicAccessBlock",
@@ -113,6 +114,11 @@ You can see the policy we added below or by opening the sagemaker_policy.json
 				"arn:aws:es:__Region__:__AccountId__:domain/*"
 			],
             "Effect": "Allow"
+		},
+        {
+			"Effect": "Allow",
+			"Action": "iam:PassRole",
+			"Resource": "arn:aws:iam::__AccountId__:role/__Region__-__AccountId__-SageMaker-OpenSearch-demo-role"
 		}
 	]
 }

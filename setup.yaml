@@ -231,6 +231,14 @@ Outputs:
   SageMakerOpenSearchRoleArn:
     Description: SageMaker OpenSearch Role Arn
     Value: !GetAtt SageMakerOpenSearchRole.Arn
+
+  OpenSearchDomainEndpoint:
+    Description: OpenSearch Domain Endpoint
+    Value: !GetAtt OpenSearchDomain.DomainEndpoint
+
+  OpensearchDashboardsURL:
+    Description: Opensearch Dashboards URL
+    Value: !Sub 'https://${OpenSearchDomain.DomainEndpoint}/_dashboards/'
     
   SageMakerJupyterNotebookURL:
     Description: The URL to open the SageMaker Jupyter Notebook

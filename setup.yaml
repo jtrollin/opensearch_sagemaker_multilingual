@@ -153,6 +153,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - 'comprehend:DetectDominantLanguage'
+                  - 'bedrock:InvokeModel'
                 Resource:
                   - '*'
 

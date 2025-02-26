@@ -91,6 +91,7 @@ Resources:
         - arn:aws:iam::aws:policy/AmazonSageMakerCanvasAIServicesAccess
         - arn:aws:iam::aws:policy/AmazonSageMakerCanvasFullAccess
         - arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
+        - arn:aws:iam::aws:policy/AmazonBedrockFullAccess
 
       # Policy to allow the EC2 to push files to the S3 bucket created. 
       Policies:
